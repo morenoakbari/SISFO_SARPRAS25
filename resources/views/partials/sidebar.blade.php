@@ -9,14 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     .nav-item.active {
-      background-color: #dbeafe;
-      color: #2563eb;
+      background-color: #fee2e2; /* light red */
+      color: #991b1b; /* dark red */
       transform: translateX(0.25rem);
     }
 
     .nav-item:hover {
-      background-color: #dbeafe;
-      color: #2563eb;
+      background-color: #fee2e2;
+      color: #991b1b;
       transform: translateX(0.25rem);
     }
 
@@ -34,7 +34,7 @@
     .submenu.show {
       display: block;
     }
-    
+
     .submenu a {
       padding: 0.75rem 1rem;
       display: flex;
@@ -43,15 +43,15 @@
       border-radius: 0.375rem;
       margin-bottom: 0.25rem;
     }
-    
+
     .submenu a:hover {
-      background-color: #dbeafe;
-      color: #2563eb;
+      background-color: #fee2e2;
+      color: #991b1b;
     }
-    
+
     .submenu a.active {
-      background-color: #dbeafe;
-      color: #2563eb;
+      background-color: #fee2e2;
+      color: #991b1b;
     }
   </style>
 </head>
@@ -63,8 +63,8 @@
     <div>
       <!-- Logo -->
       <div class="flex items-center mb-10">
-        <i class="fas fa-clipboard-list text-2xl text-blue-700 mr-3"></i>
-        <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-blue-900 hover:underline">Dashboard</a>
+        <i class="fas fa-clipboard-list text-2xl text-red-700 mr-3"></i>
+        <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-red-900 hover:underline">Dashboard</a>
       </div>
 
       <!-- Main Navigation -->
@@ -95,11 +95,11 @@
            {{ request()->routeIs('pengembalian.*') ? 'active' : '' }}">
           <i class="fas fa-undo-alt mr-3 text-lg"></i>Pengembalian
         </a>
-        
+
         <!-- Dropdown for Laporan with JS toggle -->
         <div class="dropdown relative">
-          <button id="laporan-toggle" 
-                  class="nav-item flex items-center justify-between w-full py-2.5 px-4 rounded-lg text-gray-600 font-medium transition-all duration-150
+          <button id="laporan-toggle"
+            class="nav-item flex items-center justify-between w-full py-2.5 px-4 rounded-lg text-gray-600 font-medium transition-all duration-150
                   {{ request()->is('laporan/*') ? 'active' : '' }}">
             <div class="flex items-center">
               <i class="fas fa-file-alt mr-3 text-lg"></i>
@@ -107,20 +107,21 @@
             </div>
             <i class="fas fa-chevron-down transition-transform duration-200" id="dropdown-icon"></i>
           </button>
-          
+
           <div id="laporan-submenu" class="submenu w-full rounded-lg">
-            <a href="" 
-              class="text-gray-600 font-medium {{ request()->is('laporan/barang') ? 'active' : '' }}">
+            
+            <a href="{{ route('laporan.barang') }}"
+              class="text-gray-600 font-medium {{ request()->is('laporan-barang') ? 'active' : '' }}">
               <i class="fas fa-chart-bar mr-3"></i>
               <span>Laporan Barang</span>
             </a>
-            <a href="" 
-              class="text-gray-600 font-medium {{ request()->is('laporan/peminjaman') ? 'active' : '' }}">
+            <a href="{{ route('laporan-peminjaman.index') }}"
+              class="text-gray-600 font-medium {{ request()->is('laporan-peminjaman') ? 'active' : '' }}">
               <i class="fas fa-file-upload mr-3"></i>
               <span>Laporan Peminjaman</span>
             </a>
-            <a href="" 
-              class="text-gray-600 font-medium {{ request()->is('laporan/pengembalian') ? 'active' : '' }}">
+            <a href="{{ route('laporan.pengembalian') }}"
+              class="text-gray-600 font-medium {{ request()->is('laporan-pengembalian') ? 'active' : '' }}">
               <i class="fas fa-file-download mr-3"></i>
               <span>Laporan Pengembalian</span>
             </a>
@@ -143,22 +144,25 @@
       const laporanToggle = document.getElementById('laporan-toggle');
       const laporanSubmenu = document.getElementById('laporan-submenu');
       const dropdownIcon = document.getElementById('dropdown-icon');
-      
+
       // Function to toggle submenu
       function toggleSubmenu() {
         laporanSubmenu.classList.toggle('show');
         dropdownIcon.classList.toggle('transform');
         dropdownIcon.classList.toggle('rotate-180');
       }
-      
-      // Click event for toggling submenu
+
+      // Simpan status buka-tutup
       laporanToggle.addEventListener('click', function(e) {
         e.preventDefault();
         toggleSubmenu();
+        const isOpen = laporanSubmenu.classList.contains('show');
+        localStorage.setItem('laporanOpen', isOpen ? 'true' : 'false');
       });
-      
-      // Auto-expand if a submenu item is active
-      if (laporanSubmenu.querySelector('.active')) {
+
+      // Saat halaman dimuat
+      const savedState = localStorage.getItem('laporanOpen');
+      if (savedState === 'true' || laporanSubmenu.querySelector('.active')) {
         laporanSubmenu.classList.add('show');
         dropdownIcon.classList.add('transform', 'rotate-180');
       }

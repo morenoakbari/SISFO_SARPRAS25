@@ -8,6 +8,14 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\LaporanBarangController;
+use App\Http\Controllers\LaporanPeminjamanController;
+use App\Http\Controllers\LaporanPengembalianController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BarangExport;
+use App\Exports\PeminjamanExport;
+use App\Exports\PengembalianExport;
+
 
 /*
 |----------------------------------------------------------------------
@@ -62,3 +70,27 @@ Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('
 Route::get('pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index')->middleware('auth');
 Route::post('/pengembalian/{id}', [PengembalianController::class, 'updateStatus'])->name('pengembalian.updateStatus');
 
+// Laporan Barang routes
+Route::get('/laporan-barang', [LaporanBarangController::class, 'index'])->name('laporan.barang');
+
+// Laporan Peminjaman routes
+Route::get('/laporan-peminjaman', [LaporanPeminjamanController::class, 'index'])->name('laporan-peminjaman.index');
+
+// Laporan Pengembalian routes
+Route::get('/laporan-pengembalian', [LaporanPengembalianController::class, 'index'])->name('laporan.pengembalian');
+
+
+// Export Barang to Excel
+Route::get('/laporan/barang/export', function () {
+    return Excel::download(new BarangExport, 'laporan_barang.xlsx');
+})->name('laporan.barang.export');
+
+// Export Peminjaman to Excel
+Route::get('/laporan/peminjaman/export', function () {
+    return Excel::download(new PeminjamanExport, 'laporan_peminjaman.xlsx');
+})->name('laporan.peminjaman.export');
+
+// Export Pengembalian to Excel
+Route::get('/laporan/pengembalian/export', function () {
+    return Excel::download(new PengembalianExport, 'laporan_pengembalian.xlsx');
+})->name('laporan.pengembalian.export');

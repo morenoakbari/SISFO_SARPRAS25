@@ -11,16 +11,16 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
+            background-color: #ffffff;
         }
 
         .btn-blue {
-            background-color: #3B82F6;
+            background-color: #991B1B;
             color: white;
         }
 
         .btn-blue:hover {
-            background-color: #2563EB;
+            background-color: #7F1D1D;
         }
 
         .input-style {
@@ -30,8 +30,8 @@
         }
 
         .input-style:focus {
-            outline-color: #3B82F6;
-            border-color: #3B82F6;
+            outline-color: #991B1B;
+            border-color: #991B1B;
         }
 
         .card {
@@ -41,14 +41,14 @@
         }
 
         .btn-tag {
-            background-color: #2563EB;
+            background-color: #7F1D1D;
             color: white;
             padding: 4px 8px;
             border-radius: 12px;
         }
 
         .btn-tag:hover {
-            background-color: #1D4ED8;
+            background-color: #991B1B;
         }
 
         .hover-item:hover {
@@ -63,10 +63,10 @@
     @include('partials.sidebar')
 
     <main class="flex-1 p-10">
-        <h1 class="text-3xl font-bold text-blue-900 mb-6">📦 Data Barang</h1>
+        <h1 class="text-3xl font-bold text-red-900 mb-6">📦 Data Barang</h1>
 
         @if(session('success'))
-        <div class="bg-green-100 text-green-800 p-4 rounded mb-4">
+        <div class="bg-red-100 text-red-800 p-4 rounded mb-4">
             {{ session('success') }}
         </div>
         @endif
@@ -76,7 +76,6 @@
             {{ session('error') }}
         </div>
         @endif
-
 
         {{-- Hanya admin yang bisa lihat dan submit form ini --}}
         @if(Auth::user()->role === 'admin')
@@ -100,10 +99,10 @@
         </form>
         @endif
 
-        <div class="bg-white p-6 rounded shadow border border-blue-100">
+        <div class="bg-white p-6 rounded shadow border border-red-100">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-blue-100 text-blue-900">
+                    <tr class="bg-red-100 text-red-900">
                         <th class="p-2 border">#</th>
                         <th class="p-2 border">Foto</th>
                         <th class="p-2 border">Nama</th>
@@ -131,7 +130,7 @@
                         <td class="p-2 border">{{ $barang->kategori->nama }}</td>
                         @if(Auth::user()->role === 'admin')
                         <td class="p-2 border space-x-2">
-                            <a href="{{ route('barang.edit', $barang) }}" class="text-blue-600 hover:underline">Edit</a>
+                            <a href="{{ route('barang.edit', $barang) }}" class="text-red-700 hover:underline">Edit</a>
                             <form action="{{ route('barang.destroy', $barang) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
@@ -148,7 +147,14 @@
             </table>
         </div>
     </main>
-    
+    <script>
+        document.querySelector("form").addEventListener("submit", function(e) {
+            const button = this.querySelector("button[type='submit']");
+            button.disabled = true;
+            button.innerText = "Menambahkan...";
+        });
+    </script>
+
 </body>
 
 </html>

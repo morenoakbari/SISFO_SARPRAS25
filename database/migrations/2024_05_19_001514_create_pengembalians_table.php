@@ -15,7 +15,7 @@ return new class extends Migration
         // Membuat tabel pengembalians
         Schema::create('pengembalians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('peminjaman_id')->constrained()->onDelete('cascade');  // Check if "peminjaman" is the correct table name
+            $table->foreignId('peminjaman_id')->constrained('peminjamans')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('barang_id')->constrained()->onDelete('cascade');
             $table->integer('jumlah');

@@ -12,10 +12,10 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-white to-blue-100 flex items-center justify-center min-h-screen">
+<body class="bg-gradient-to-br from-white to-red-100 flex items-center justify-center min-h-screen">
 
-  <div class="bg-white bg-opacity-80 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-md border border-blue-100">
-    <h2 class="text-3xl font-extrabold mb-8 text-center text-blue-800 tracking-tight">Login</h2>
+  <div class="bg-white bg-opacity-80 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-md border border-red-100">
+    <h2 class="text-3xl font-extrabold mb-8 text-center text-red-800 tracking-tight">Login</h2>
 
     @if (session('success'))
     <div class="mb-6 text-green-600 text-sm font-semibold">
@@ -36,20 +36,20 @@
     <form action="{{ route('login') }}" method="POST">
       @csrf
       <div class="mb-5">
-        <label class="block text-blue-900 font-semibold mb-2">Email</label>
-        <input type="email" name="email" required class="w-full px-5 py-3 border border-blue-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 bg-blue-50" />
+        <label class="block text-red-900 font-semibold mb-2">Email</label>
+        <input type="email" name="email" required class="w-full px-5 py-3 border border-red-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-300 transition duration-300 bg-red-50" />
       </div>
 
       <div class="mb-7">
-        <label class="block text-blue-900 font-semibold mb-2">Password</label>
-        <input type="password" name="password" required class="w-full px-5 py-3 border border-blue-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 bg-blue-50" />
+        <label class="block text-red-900 font-semibold mb-2">Password</label>
+        <input type="password" name="password" required class="w-full px-5 py-3 border border-red-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-300 transition duration-300 bg-red-50" />
       </div>
 
-      <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition duration-300 shadow-md">Login</button>
+      <button type="submit" class="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 rounded-xl transition duration-300 shadow-md">Login</button>
 
-      <p class="mt-6 text-center text-sm text-blue-700">
+      <p class="mt-6 text-center text-sm text-red-700">
         Belum punya akun? 
-        <a href="{{ route('register.form') }}" class="text-blue-800 font-semibold hover:underline">Daftar di sini</a>
+        <a href="{{ route('register.form') }}" class="text-red-800 font-semibold hover:underline">Daftar di sini</a>
       </p>
     </form>
   </div>

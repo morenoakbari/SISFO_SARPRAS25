@@ -25,14 +25,14 @@
 
     <main class="flex-1 p-8">
         <!-- Back link -->
-        <a href="{{ route('kategori.index') }}" class="text-blue-500 hover:text-blue-700 mb-4 inline-flex items-center">
+        <a href="{{ route('kategori.index') }}" class="text-red-500 hover:text-red-700 mb-4 inline-flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             Kembali
         </a>
 
-        <h1 class="text-2xl font-semibold text-blue-900 mb-6">✏️ Edit Kategori</h1>
+        <h1 class="text-2xl font-semibold text-red-900 mb-6">✏️ Edit Kategori</h1>
 
         <div class="bg-white rounded-lg shadow-sm p-6 max-w-md">
             <form action="{{ route('kategori.update', $kategori->id) }}" method="POST">
@@ -46,7 +46,7 @@
                         name="nama"
                         value="{{ $kategori->nama }}"
                         required
-                        class="w-full bg-white border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+                        class="w-full bg-white border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-400 focus:border-red-400 focus:outline-none"
                     >
                     @error('nama')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -56,7 +56,7 @@
                 <div class="flex gap-3">
                     <button
                         type="submit"
-                        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium transition duration-200"
+                        class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition duration-200"
                     >
                         Simpan Perubahan
                     </button>

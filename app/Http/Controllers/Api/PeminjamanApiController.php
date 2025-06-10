@@ -12,18 +12,22 @@ class PeminjamanApiController extends Controller
 {
     public function index()
     {
-        return Peminjaman::with(['barang', 'user'])
+        $peminjamans = Peminjaman::with('barang')
             ->where('user_id', Auth::id())
+            ->latest()
             ->get();
+
+        return response()->json([
+            'data' => $peminjamans
+        ]);
     }
+
 
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'barang_id' => 'required|exists:barangs,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'nullable|date|after_or_equal:tanggal_pinjam',
+            'tanggal_kembali' => 'nullable|date|after_or_equal:today',
             'jumlah' => 'required|integer|min:1',
         ]);
 
@@ -34,15 +38,20 @@ class PeminjamanApiController extends Controller
         }
 
         $peminjaman = Peminjaman::create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(),
             'barang_id' => $request->barang_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali, // pastikan ini ada
+            'tanggal_pinjam' => now(), 
+            'tanggal_kembali' => $request->tanggal_kembali,
             'jumlah' => $request->jumlah,
-            'status' => 'dipinjam'
+            'status' => 'menunggu',
         ]);
 
-        return response()->json(['message' => 'Peminjaman berhasil dibuat', 'data' => $peminjaman], 201);
+        $peminjaman->load('barang');
+
+        return response()->json([
+            'message' => 'Peminjaman berhasil dibuat',
+            'data' => $peminjaman
+        ], 201);
     }
 
 

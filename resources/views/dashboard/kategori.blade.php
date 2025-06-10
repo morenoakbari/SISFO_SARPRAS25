@@ -12,17 +12,17 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
+            background-color: #ffffff;
         }
 
         .btn-blue {
-            background-color: #3B82F6;
+            background-color: #991B1B;
             color: white;
             transition: all 0.3s ease;
         }
 
         .btn-blue:hover {
-            background-color: #2563EB;
+            background-color: #7F1D1D;
             transform: translateY(-2px);
         }
 
@@ -35,8 +35,8 @@
 
         .input-style:focus {
             outline: none;
-            border-color: #3B82F6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            border-color: #991B1B;
+            box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.3);
         }
 
         .card {
@@ -51,7 +51,7 @@
         }
 
         .btn-tag {
-            background-color: #2563EB;
+            background-color: #7F1D1D;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -59,7 +59,7 @@
         }
 
         .btn-tag:hover {
-            background-color: #1D4ED8;
+            background-color: #991B1B;
         }
 
         .hover-item {
@@ -69,38 +69,38 @@
 
         .hover-item:hover {
             background-color: #f3f4f6;
-            border-left: 3px solid #3B82F6;
+            border-left: 3px solid #991B1B;
         }
-        
+
         .btn-edit {
             color: #F59E0B;
             transition: all 0.2s ease;
         }
-        
+
         .btn-edit:hover {
             color: #D97706;
         }
-        
+
         .btn-delete {
             color: #EF4444;
             transition: all 0.2s ease;
         }
-        
+
         .btn-delete:hover {
             color: #DC2626;
         }
-        
+
         .page-title {
             position: relative;
             display: inline-block;
         }
-        
+
         .page-title:after {
             content: '';
             position: absolute;
             width: 40%;
             height: 3px;
-            background-color: #3B82F6;
+            background-color: #991B1B;
             bottom: -6px;
             left: 0;
             border-radius: 2px;
@@ -112,7 +112,7 @@
     @include('partials.sidebar')
 
     <main class="flex-1 p-10">
-        <h1 class="text-3xl font-semibold text-blue-900 mb-8">
+        <h1 class="text-3xl font-semibold text-red-900 mb-8">
             <i class="fas fa-box-archive mr-2"></i>Kategori Barang
         </h1>
 
@@ -130,13 +130,11 @@
                             name="nama"
                             placeholder="Masukkan nama kategori"
                             required
-                            class="input-style w-full px-4 py-3 rounded-lg focus:outline-none transition"
-                        >
+                            class="input-style w-full px-4 py-3 rounded-lg focus:outline-none transition">
                     </div>
                     <button
                         type="submit"
-                        class="btn-blue w-full py-3 rounded-lg shadow-sm transition hover:shadow-lg font-medium flex items-center justify-center"
-                    >
+                        class="btn-blue w-full py-3 rounded-lg shadow-sm transition hover:shadow-lg font-medium flex items-center justify-center">
                         <i class="fas fa-plus mr-2"></i>Tambah Kategori
                     </button>
                 </form>
@@ -147,30 +145,30 @@
                 <h2 class="text-xl font-medium text-gray-700 mb-4">Daftar Kategori</h2>
                 <ul class="space-y-3">
                     @foreach ($kategori as $item)
-                        <li class="text-gray-800 flex justify-between items-center hover-item py-3 px-4 rounded-lg">
-                            <span class="font-medium">{{ $item->nama }}</span>
-                            
-                            <div class="flex space-x-5">
-                                <!-- Tombol Edit -->
-                                <a href="{{ route('kategori.edit', $item->id) }}" 
-                                   class="btn-edit font-medium hover:underline flex items-center">
-                                    <i class="fas fa-edit mr-1"></i> Edit
-                                </a>
+                    <li class="text-gray-800 flex justify-between items-center hover-item py-3 px-4 rounded-lg">
+                        <span class="font-medium">{{ $item->nama }}</span>
 
-                                <!-- Tombol Hapus -->
-                                <form action="{{ route('kategori.destroy', $item->id) }}" method="POST" class="inline-block"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-delete font-medium hover:underline flex items-center">
-                                        <i class="fas fa-trash-alt mr-1"></i> Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
+                        <div class="flex space-x-5">
+                            <!-- Tombol Edit -->
+                            <a href="{{ route('kategori.edit', $item->id) }}"
+                                class="btn-edit font-medium hover:underline flex items-center">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </a>
+
+                            <!-- Tombol Hapus -->
+                            <form action="{{ route('kategori.destroy', $item->id) }}" method="POST" class="inline-block"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete font-medium hover:underline flex items-center">
+                                    <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </li>
                     @endforeach
                 </ul>
-                
+
                 <!-- Empty state -->
                 @if(count($kategori) == 0)
                 <div class="text-center py-8 text-gray-500">
@@ -182,4 +180,5 @@
         </div>
     </main>
 </body>
+
 </html>

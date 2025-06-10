@@ -10,19 +10,30 @@ use Illuminate\Support\Facades\Log;
 
 class PeminjamanController extends Controller
 {
+    // public function index()
+    // {
+    //     $peminjamans = Peminjaman::with(['user', 'barang'])->latest()->get();
+
+    //     foreach ($peminjamans as $peminjaman) {
+    //         if (!$peminjaman->barang) {
+    //             // Jika tidak ada barang terkait, beri peringatan atau log
+    //             Log::warning("Peminjaman dengan ID {$peminjaman->id} tidak memiliki barang terkait.");
+    //         }
+    //     }
+
+    //     return view('dashboard.peminjaman', compact('peminjamans'));
+    // }
+
     public function index()
     {
-        $peminjamans = Peminjaman::with(['user', 'barang'])->latest()->get();
-
-        foreach ($peminjamans as $peminjaman) {
-            if (!$peminjaman->barang) {
-                // Jika tidak ada barang terkait, beri peringatan atau log
-                Log::warning("Peminjaman dengan ID {$peminjaman->id} tidak memiliki barang terkait.");
-            }
-        }
+        $peminjamans = Peminjaman::with(['user', 'barang'])
+            ->where('status', 'menunggu') 
+            ->latest()
+            ->get();
 
         return view('dashboard.peminjaman', compact('peminjamans'));
     }
+
 
     public function form()
     {
@@ -33,28 +44,22 @@ class PeminjamanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'barang_id' => 'required|exists:barangs,id',
-            'tanggal_pinjam' => 'required|date|after_or_equal:today',
-            'jumlah' => 'required|integer|min:1',
+            'barang_id' => 'required',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
         ]);
 
-        $barang = Barang::findOrFail($request->barang_id);
-
-        if ($barang->stok < $request->jumlah) {
-            return back()->with('error', 'Jumlah melebihi stok tersedia.');
-        }
-
-        // Tidak mengurangi stok di sini — hanya simpan permintaan
         Peminjaman::create([
-            'user_id' => Auth::id(),
-            'barang_id' => $barang->id,
+            'user_id' => auth()->id(),
+            'barang_id' => $request->barang_id,
             'tanggal_pinjam' => $request->tanggal_pinjam,
-            'status' => 'dipinjam', // Menunggu persetujuan
-            'jumlah' => $request->jumlah,
+            'tanggal_kembali' => $request->tanggal_kembali,
+            'status' => 'menunggu', // ini penting!
         ]);
 
-        return redirect()->route('peminjaman.index')->with('success', 'Permintaan peminjaman berhasil dikirim.');
+        return redirect()->back()->with('success', 'Peminjaman berhasil diajukan.');
     }
+
 
     public function updateStatus(Request $request, Peminjaman $peminjaman)
     {
@@ -75,5 +80,17 @@ class PeminjamanController extends Controller
         $peminjaman->update(['status' => $request->status]);
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+    }
+
+    public function apiRiwayat()
+    {
+        $peminjamans = Peminjaman::with('barang')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'data' => $peminjamans
+        ]);
     }
 }

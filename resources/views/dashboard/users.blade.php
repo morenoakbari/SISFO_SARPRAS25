@@ -11,20 +11,18 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8; /* Warna latar belakang putih biru */
+      background-color: #ffffff;
     }
 
-    /* Styling untuk tombol dengan warna biru */
     .btn-blue {
-      background-color: #3B82F6;
+      background-color: #991B1B;
       color: white;
     }
 
     .btn-blue:hover {
-      background-color: #2563EB;
+      background-color: #7F1D1D;
     }
 
-    /* Styling untuk input dan form */
     .input-style {
       background-color: #ffffff;
       border: 1px solid #ddd;
@@ -32,34 +30,30 @@
     }
 
     .input-style:focus {
-      outline-color: #3B82F6; /* Fokus biru */
-      border-color: #3B82F6;
+      outline-color: #991B1B;
+      border-color: #991B1B;
     }
 
-    /* Styling untuk card dan daftar */
     .card {
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Styling untuk label dan tombol */
     .btn-tag {
-      background-color: #2563EB;
+      background-color: #7F1D1D;
       color: white;
       padding: 4px 8px;
       border-radius: 12px;
     }
 
     .btn-tag:hover {
-      background-color: #1D4ED8;
+      background-color: #991B1B;
     }
 
-    /* Hover untuk item tabel */
     .hover-item:hover {
       background-color: #f3f4f6;
     }
-
   </style>
 </head>
 
@@ -69,7 +63,7 @@
 
   <main class="flex-1 p-10">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-blue-900">Pengguna</h1>
+      <h1 class="text-3xl font-bold text-red-900">Pengguna</h1>
       @if (Auth::user()->role === 'admin')
       <button onclick="toggleForm()" class="btn-blue px-4 py-2 rounded-lg">
         + Tambah User
@@ -77,14 +71,12 @@
       @endif
     </div>
 
-    {{-- Display Success Message --}}
     @if (session('success'))
-    <div class="bg-green-500 text-white p-4 rounded-lg mb-6">
+    <div class="bg-red-500 text-white p-4 rounded-lg mb-6">
       {{ session('success') }}
     </div>
     @endif
 
-    {{-- Form Tambah User --}}
     <div id="userForm" class="hidden card p-6 mb-8">
       <form method="POST" action="{{ route('user.store') }}">
         @csrf
@@ -106,9 +98,7 @@
       </form>
     </div>
 
-    {{-- Daftar Pengguna --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {{-- Admin Section --}}
       <div>
         <h2 class="text-xl font-semibold mb-2">Admin <span class="text-sm font-normal">Total: {{ $admins->count() }} Admin</span></h2>
         <input type="text" placeholder="Cari Admin..." class="input-style w-full p-2 mb-4" />
@@ -124,7 +114,6 @@
         </div>
       </div>
 
-      {{-- User Section --}}
       <div>
         <h2 class="text-xl font-semibold mb-2">User <span class="text-sm font-normal">Total: {{ $users->where('role', 'user')->count() }} User</span></h2>
         <input type="text" placeholder="Cari User..." class="input-style w-full p-2 mb-4" />

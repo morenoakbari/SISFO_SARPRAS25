@@ -12,14 +12,14 @@ return new class extends Migration
      */
     public function up()
     {
-        // Membuat tabel barangs
-        Schema::create('barangs', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->text('deskripsi')->nullable();
-            $table->integer('stok')->default(0); // Menyimpan stok barang
-            $table->timestamps();
-        });
+        // // Membuat tabel barangs
+        // Schema::create('barangs', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nama');
+        //     $table->text('deskripsi')->nullable();
+        //     $table->integer('stok')->default(0); // Menyimpan stok barang
+        //     $table->timestamps();
+        // });
 
         // Membuat tabel peminjamans
         Schema::create('peminjamans', function (Blueprint $table) {
@@ -28,10 +28,10 @@ return new class extends Migration
             $table->foreignId('barang_id')->constrained()->onDelete('cascade');
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->nullable();
-            $table->string('status');
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak', 'dikembalikan'])->default('menunggu');
             $table->integer('jumlah');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**
