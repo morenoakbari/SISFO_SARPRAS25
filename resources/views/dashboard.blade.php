@@ -65,6 +65,20 @@
                 <div class="text-lg font-medium text-red-600">Barang</div>
             </div>
 
+            <!-- Card for Peminjam Menunggu -->
+            <div class="relative bg-white border border-red-100 rounded-2xl shadow-md hover:shadow-xl transition p-6 flex flex-col gap-2 overflow-hidden">
+                <div class="absolute right-4 top-4 opacity-10 text-red-700 pointer-events-none select-none">
+                    <!-- Icon -->
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 20h10M4 17l8-8 8 8" />
+                    </svg>
+                </div>
+                <div class="text-4xl font-bold text-red-900">{{ $totalPeminjam }}</div>
+                <div class="text-lg font-medium text-red-600">Peminjam Menunggu</div>
+            </div>
+
+
+
         </section>
 
         <!-- Statistik Section -->

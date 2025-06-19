@@ -29,7 +29,7 @@ use App\Exports\PengembalianExport;
 
 // Route untuk halaman utama
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Auth routes
@@ -69,6 +69,9 @@ Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('
 // Route untuk Pengembalian
 Route::get('pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index')->middleware('auth');
 Route::post('/pengembalian/{id}', [PengembalianController::class, 'updateStatus'])->name('pengembalian.updateStatus');
+Route::post('/pengembalian/{id}/setuju', [PengembalianController::class, 'setuju'])->name('pengembalian.setuju');
+Route::post('/pengembalian/{id}/tolak', [PengembalianController::class, 'tolak'])->name('pengembalian.tolak');
+
 
 // Laporan Barang routes
 Route::get('/laporan-barang', [LaporanBarangController::class, 'index'])->name('laporan.barang');

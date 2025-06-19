@@ -60,57 +60,62 @@
                             <th class="px-6 py-4">Peminjam</th>
                             <th class="px-6 py-4">Tanggal Pinjam</th>
                             <th class="px-6 py-4">Tanggal Kembali</th>
+                            <th class="px-6 py-4">Keterangan</th>
+                            <th class="px-6 py-4">Foto</th>
                             <th class="px-6 py-4 w-48">Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody class="divide-y divide-gray-200">
-                        @foreach($pengembalian as $key => $peminjaman)
+                        @foreach($pengembalian as $key => $item)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $key + 1 }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">
-                                    {{ $peminjaman->barang->nama ?? 'Barang tidak tersedia' }}
-                                </div>
+                                {{ $item->barang->nama ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                {{ $peminjaman->jumlah ?? '-' }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                {{ $item->jumlah }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($peminjaman->status === 'dikembalikan')
-                                <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-                                    <i class="fas fa-check-circle mr-1.5"></i> Sudah Dikembalikan
-                                </span>
-                                @elseif($peminjaman->status === 'dipinjam')
-                                <span class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
-                                    <i class="fas fa-clock mr-1.5"></i> Belum Dikembalikan
-                                </span>
-                                @elseif($peminjaman->status === 'diterima')
-                                <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-                                    <i class="fas fa-info-circle mr-1.5"></i> Diterima
-                                </span>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                @if($item->status === 'diterima')
+                                <span class="bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full">Diterima</span>
+                                @elseif($item->status === 'ditolak')
+                                <span class="bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">Ditolak</span>
                                 @else
-                                <span class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-800">
-                                    <i class="fas fa-times-circle mr-1.5"></i> Ditolak
-                                </span>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full">Menunggu</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                {{ $peminjaman->user->name ?? 'User tidak ditemukan' }}
+                            <td class="px-6 py-4 text-sm">
+                                {{ $item->user->name ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                {{ $peminjaman->tanggal_pinjam }}
+                            <td class="px-6 py-4 text-sm">
+                                {{ $item->peminjaman->tanggal_pinjam ?? '-' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                {{ $peminjaman->tanggal_kembali ?? '-' }}
+                            <td class="px-6 py-4 text-sm">
+                                {{ $item->tanggal_kembali }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                @if ($peminjaman->status === 'dipinjam')
-                                <form action="{{ route('pengembalian.updateStatus', $peminjaman->id) }}" method="POST">
+                            <td class="px-6 py-4 text-sm">
+                                {{ $item->keterangan ?? '-' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                @if ($item->foto)
+                                <img src="{{ asset('storage/' . $item->foto) }}"
+                                    alt="Foto Pengembalian"
+                                    class="w-16 h-16 object-cover rounded border">
+                                @else
+                                <span class="text-gray-400">-</span>
+                                @endif
+
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                @if ($item->status === 'menunggu')
+                                <form action="{{ route('pengembalian.setuju', $item->id) }}" method="POST" class="inline">
                                     @csrf
-                                    <button name="status" value="dikembalikan" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md flex items-center text-xs font-medium transition-colors">
-                                        <i class="fas fa-check mr-1"></i>
-                                        Kembalikan
-                                    </button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-xs">Setujui</button>
+                                </form>
+                                <form action="{{ route('pengembalian.tolak', $item->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button class="bg-red-600 text-white px-3 py-1 rounded text-xs">Tolak</button>
                                 </form>
                                 @else
                                 <span class="text-gray-400">-</span>
@@ -118,6 +123,7 @@
                             </td>
                         </tr>
                         @endforeach
+
                     </tbody>
                 </table>
             </div>

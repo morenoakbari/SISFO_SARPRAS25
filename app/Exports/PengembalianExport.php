@@ -6,6 +6,7 @@ use App\Models\Peminjaman;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Carbon\Carbon;
 
 class PengembalianExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -34,7 +35,9 @@ class PengembalianExport implements FromCollection, WithHeadings, WithMapping
             $peminjaman->user->name ?? 'User tidak tersedia',
             $peminjaman->barang->nama ?? 'Barang tidak tersedia',
             $peminjaman->jumlah,
-            $peminjaman->tanggal_kembali ? $peminjaman->tanggal_kembali->format('Y-m-d') : '-',
+            $peminjaman->tanggal_kembali
+                ? Carbon::parse($peminjaman->tanggal_kembali)->format('Y-m-d')
+                : '-',
         ];
     }
 }

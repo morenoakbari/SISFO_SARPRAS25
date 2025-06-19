@@ -16,6 +16,9 @@ class Pengembalian extends Model
         'barang_id',
         'jumlah',
         'tanggal_kembali',
+        'foto',
+        'keterangan',
+        'status',
     ];
 
 

@@ -71,7 +71,7 @@
     // ==========================
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/barangs', [BarangApiController::class, 'store']);
-        Route::get('/barangs', [BarangApiController::class, 'index']); 
+        Route::get('/barangs', [BarangApiController::class, 'index']);
         Route::put('/barangs/{barang}', [BarangApiController::class, 'update']);
         Route::delete('/barangs/{barang}', [BarangApiController::class, 'destroy']);
     });
@@ -99,5 +99,6 @@
     // ==========================
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/peminjaman/{id}/kembalikan', [PeminjamanApiController::class, 'kembalikan']); // untuk pengembalian di controller PeminjamanApiController
-        Route::put('/pengembalian/{id}', [PengembalianApiController::class, 'kembalikan']); // untuk pengembalian di controller PengembalianApiController
+        Route::post('/pengembalian/{id}', [PengembalianApiController::class, 'kembalikan']); // untuk pengembalian di controller PengembalianApiController
+        Route::post('/pengembalian/{id}/approve', [PengembalianApiController::class, 'approve']);
     });

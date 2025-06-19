@@ -59,7 +59,6 @@ class AuthController extends Controller
                 ]);
             }
     
-            // ✅ Jika admin, lanjut
             return redirect()->route('dashboard');
         }
     
