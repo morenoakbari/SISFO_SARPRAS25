@@ -27,7 +27,7 @@ class PeminjamanController extends Controller
     public function index()
     {
         $peminjamans = Peminjaman::with(['user', 'barang'])
-            ->where('status', 'menunggu') 
+            ->where('status', 'menunggu')
             ->latest()
             ->get();
 
@@ -65,22 +65,12 @@ class PeminjamanController extends Controller
     {
         $request->validate(['status' => 'required|in:diterima,ditolak']);
 
-        if ($request->status === 'diterima') {
-            $barang = $peminjaman->barang;
-
-            if ($barang->stok < $peminjaman->jumlah) {
-                return back()->with('error', 'Stok barang tidak mencukupi untuk menyetujui peminjaman ini.');
-            }
-
-            // Kurangi stok hanya saat disetujui
-            $barang->stok -= $peminjaman->jumlah;
-            $barang->save();
-        }
-
+        // Stok akan dikurangi otomatis lewat observer
         $peminjaman->update(['status' => $request->status]);
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
+
 
     public function apiRiwayat()
     {
